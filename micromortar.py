@@ -8,7 +8,7 @@ g = 9.82
 x = 0
 v0 = 100
 angcount = 0
-hitarea = 25
+hitarea = 30
 
 radio.config(channel=57)
 radio.on()
@@ -16,7 +16,7 @@ tempx = randint(minx, maxx)
 alive = True
 
 def getangle():
-    return math.radians(accelerometer.get_y()/11.38)
+    return math.radians(accelerometer.get_y()/11.38), accelerometer.get_z()
 
 while x == 0:
     r = radio.receive()
@@ -37,8 +37,8 @@ display.show("3 2 1 ")
 while alive:
     h = radio.receive()
     angcount += 1
-    if angcount >= 50:
-        angle = getangle()
+    if angcount >= 700:
+        angle, zangle = getangle()
     velocity = 0
     vdelta = 1
     while button_a.is_pressed():
