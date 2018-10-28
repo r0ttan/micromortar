@@ -16,17 +16,19 @@ tempx = randint(minx, maxx)
 alive = True
 
 def getangle():
-    return math.radians(accelerometer.get_y()/11.38), accelerometer.get_z()
+    """Accelerometer y output for first quadrant range 0-1024, in 64 steps, 16 per step"""
+    return math.radians(accelerometer.get_y()/11.38), accelerometer.get_z()   #translate y angle to radians, z for backward shooting check (z should always be negative or zero if shooting straight up)
 
+""" Negotiate range between mortars """
 while x == 0:
     r = radio.receive()
-    if r != None:
+    if r != None:  #got a message from other mortar
         try:
-            x = int(r)
+            x = int(r)    #check if int was received
             radio.send("READY")
         except ValueError:
             pass
-        if r == "READY":
+        if r == "READY":   #Only happens if other mortar took our x, set my x to earlier sent x.
             x, tempx = tempx, x
             radio.send("READY")
             break
@@ -37,7 +39,7 @@ display.show("3 2 1 ")
 while alive:
     h = radio.receive()
     angcount += 1
-    if angcount >= 700:
+    if angcount >= 700:   #slow down angle checks without blocking
         angle, zangle = getangle()
     velocity = 0
     vdelta = 1
