@@ -59,11 +59,11 @@ while alive:            #this mortar is not yet hit
         velocity += 1*vdelta
         display.show(velocity)
         sleep(370)
-        if velocity==4 or velocity==0:  #time to change count direction
+        if velocity==5 or velocity==1:  #time to change count direction
             vdelta = vdelta*(-1)
-    v0 = v0 + velocity
+    velocity = v0 + velocity
     if button_a.was_pressed():      #trigger pressed!
-        y = (x*(math.tan(angle)))-(g*(x**2))/((2*(v0**2))*((math.cos(angle))**2))   #calculate hight of virtual projectile when reaching negotiated distance
+        y = (x*(math.tan(angle)))-(g*(x**2))/((2*(velocity**2))*((math.cos(angle))**2))   #calculate hight of virtual projectile when reaching negotiated distance
         display.show("F F ")        #Firing, stand by.
         sleep(500)
         if y < -hitarea:            # projectile would be below zero (the x-axis plane) at correct distance, and outside hit area, too short
